@@ -11,6 +11,8 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: 5173,
+      // Necesario para la recarga en caliente con volúmenes de Docker en Windows/macOS
+      watch: env.VITE_USE_POLLING === 'true' ? { usePolling: true, interval: 300 } : undefined,
       proxy: { '/api': { target, changeOrigin: true } },
     },
   }
