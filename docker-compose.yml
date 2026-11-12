@@ -1,0 +1,62 @@
+# Entorno de desarrollo: `docker compose up --build`
+#   Frontend  http://localhost:5173
+#   API       http://localhost:8000  (Swagger en /docs)
+#   Postgres  localhost:5432
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-xcellent}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-xcellent}
+      POSTGRES_DB: ${POSTGRES_DB:-xcellentday}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-xcellent} -d ${POSTGRES_DB:-xcellentday}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./Backend
+      args:
+        INSTALL_DEV: "true"
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-xcellent}:${POSTGRES_PASSWORD:-xcellent}@db:5432/${POSTGRES_DB:-xcellentday}
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
+      CORS_ORIGINS: http://localhost:5173
+      TIMEZONE: America/Merida
+      FIRST_ADMIN_EMAIL: ${FIRST_ADMIN_EMAIL:-admin@xcellentday.com}
+      FIRST_ADMIN_PASSWORD: ${FIRST_ADMIN_PASSWORD:-Admin12345}
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./Frontend
+      target: dev
+    restart: unless-stopped
+    environment:
+      API_PROXY_TARGET: http://backend:8000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

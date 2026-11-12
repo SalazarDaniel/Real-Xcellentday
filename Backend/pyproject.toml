@@ -1,0 +1,51 @@
+[project]
+name = "xcellentday-backend"
+version = "0.1.0"
+description = "API de Xcellent Day - CRM para Wedding Planners"
+authors = [
+    {name = "Equipo Xcellent Day"}
+]
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastapi[standard] (>=0.162.5,<0.163.0)",
+    "sqlalchemy (>=2.0,<3.0)",
+    "psycopg[binary] (>=3.2,<4.0)",
+    "alembic (>=1.14,<2.0)",
+    "pydantic-settings (>=2.6,<3.0)",
+    "email-validator (>=2.2,<3.0)",
+    "pyjwt (>=2.10,<3.0)",
+    "bcrypt (>=4.2,<5.0)",
+    "tzdata (>=2026.6,<2027.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "ruff (>=0.17.5,<0.18.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::sqlalchemy.exc.SAWarning"]
+
+[tool.coverage.run]
+source = ["app"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]
