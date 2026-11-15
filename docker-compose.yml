@@ -1,5 +1,5 @@
 # Entorno de desarrollo: `docker compose up --build`
-#   Frontend  http://localhost:5173
+#   Frontend  http://localhost:3000  (Next.js)
 #   API       http://localhost:8000  (Swagger en /docs)
 #   Postgres  localhost:5432
 
@@ -30,7 +30,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-xcellent}:${POSTGRES_PASSWORD:-xcellent}@db:5432/${POSTGRES_DB:-xcellentday}
       JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
-      CORS_ORIGINS: http://localhost:5173
+      CORS_ORIGINS: http://localhost:3000
       TIMEZONE: America/Merida
       FIRST_ADMIN_EMAIL: ${FIRST_ADMIN_EMAIL:-admin@xcellentday.com}
       FIRST_ADMIN_PASSWORD: ${FIRST_ADMIN_PASSWORD:-Admin12345}
@@ -52,12 +52,14 @@ services:
     restart: unless-stopped
     environment:
       API_PROXY_TARGET: http://backend:8000
-      VITE_USE_POLLING: "true"
+      # Detecta cambios en volúmenes montados desde Windows/macOS
+      WATCHPACK_POLLING: "true"
     ports:
-      - "5173:5173"
+      - "3000:3000"
     volumes:
       - ./Frontend:/app
       - /app/node_modules
+      - /app/.next
     depends_on:
       - backend
 
