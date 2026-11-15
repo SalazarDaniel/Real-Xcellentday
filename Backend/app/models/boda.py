@@ -119,6 +119,7 @@ class Invitado(Base):
     correo: Mapped[str | None] = mapped_column(String(255), nullable=True)
     telefono: Mapped[str | None] = mapped_column(String(10), nullable=True)
     acompanantes: Mapped[int] = mapped_column(Integer, default=0)
+    mesa: Mapped[str | None] = mapped_column(String(50), nullable=True)
     confirmacion: Mapped[EstadoRSVP] = mapped_column(
         enum_col(EstadoRSVP, "estado_rsvp"), default=EstadoRSVP.PENDIENTE
     )

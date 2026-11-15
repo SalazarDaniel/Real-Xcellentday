@@ -7,7 +7,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 
-from app.api.routers import auth, bodas, dashboard, presupuesto, proveedores, tareas, usuarios
+from app.api.routers import (
+    auth,
+    bodas,
+    dashboard,
+    invitados,
+    presupuesto,
+    proveedores,
+    tareas,
+    usuarios,
+)
 from app.core.config import settings
 from app.core.database import SessionLocal
 from app.services.auth import ensure_first_admin
@@ -128,7 +137,7 @@ async def integrity_handler(_: Request, exc: IntegrityError):
 
 
 api = APIRouter(prefix="/api")
-for r in (auth, usuarios, bodas, proveedores, presupuesto, tareas, dashboard):
+for r in (auth, usuarios, bodas, invitados, proveedores, presupuesto, tareas, dashboard):
     api.include_router(r.router)
 app.include_router(api)
 
