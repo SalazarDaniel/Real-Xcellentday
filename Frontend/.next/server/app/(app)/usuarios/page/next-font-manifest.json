@@ -1,0 +1,14 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/src/app/(app)/usuarios/page": [
+      "static/media/a76ba5fef3752e80-s.p.1w5q7lzgd6b-w.woff2",
+      "static/media/121e6016e5e0f1dd-s.p.165m0a6x35k7n.woff2",
+      "static/media/dd9dfc3601372168-s.p.43zbiuwnnoiok.woff2",
+      "static/media/22a701959b157a82-s.p.2o7m9ogm38dql.woff2",
+      "static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}

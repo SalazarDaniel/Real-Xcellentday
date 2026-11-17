@@ -1,0 +1,14 @@
+{
+  "/(app)/eventos/[id]/page": "/eventos/[id]",
+  "/(app)/eventos/nuevo/page": "/eventos/nuevo",
+  "/(app)/eventos/page": "/eventos",
+  "/(app)/proveedores/page": "/proveedores",
+  "/(app)/tareas/page": "/tareas",
+  "/(app)/usuarios/page": "/usuarios",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/login/page": "/login",
+  "/page": "/",
+  "/registro/page": "/registro"
+}

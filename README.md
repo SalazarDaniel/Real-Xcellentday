@@ -7,7 +7,7 @@ Proyecto de Proyectos VII, Universidad Modelo Campus Mérida (agosto–diciembre
 
 | Capa          | Tecnología                                                        |
 | ------------- | ----------------------------------------------------------------- |
-| Frontend      | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4     |
+| Frontend      | Next.js 16 (repo aparte: XcellentDayFront)                        |
 | Backend       | FastAPI, SQLAlchemy 2, Alembic, Pydantic, JWT, bcrypt             |
 | Base de datos | PostgreSQL 16                                                     |
 | Dependencias  | Poetry (backend), npm (frontend)                                  |
@@ -25,8 +25,7 @@ Proyecto de Proyectos VII, Universidad Modelo Campus Mérida (agosto–diciembre
 │   ├── alembic/        migraciones
 │   ├── scripts/        entrypoint de Docker y datos de demostración
 │   └── tests/          pruebas con pytest
-├── Frontend/           Next.js + Tailwind (diseño de Figma «X-Cellent»)
-└── docker-compose.yml  db + backend + frontend
+└── docker-compose.yml  db + backend
 ```
 
 ## Arranque rápido con Docker
@@ -39,7 +38,6 @@ docker compose up --build
 
 | Servicio        | URL                         |
 | --------------- | --------------------------- |
-| Aplicación web  | http://localhost:3000       |
 | API             | http://localhost:8000       |
 | Swagger/OpenAPI | http://localhost:8000/docs  |
 
@@ -65,14 +63,8 @@ poetry run alembic upgrade head
 poetry run uvicorn app.main:app --reload
 ```
 
-**Frontend** (Node 22+):
-
-```bash
-cd Frontend
-npm install
-npm run dev                     # http://localhost:3000; /api se envía a http://localhost:8000
-                                # (cámbialo con API_PROXY_TARGET)
-```
+**Frontend**: vive en su propio repositorio (XcellentDayFront, Next.js). Apúntalo a esta API con
+`API_PROXY_TARGET=http://localhost:8000` y permite su origen en `CORS_ORIGINS`.
 
 ## Pruebas y calidad
 
@@ -81,13 +73,10 @@ cd Backend
 poetry run pytest --cov         # SQLite en memoria por defecto
 TEST_DATABASE_URL=postgresql+psycopg://usuario:clave@localhost:5432/xcellentday_test poetry run pytest
 poetry run ruff check .
-
-cd ../Frontend
-npm run lint && npm run build
 ```
 
 El flujo de GitHub Actions (`.github/workflows/ci.yml`) ejecuta lint, migraciones y pruebas del
-backend contra PostgreSQL (cobertura mínima 60 %, RNF10) y el build del frontend en cada push y
+backend contra PostgreSQL (cobertura mínima 60 %, RNF10) en cada push y
 pull request.
 
 Nueva migración tras cambiar modelos:

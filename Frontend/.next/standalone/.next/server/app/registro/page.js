@@ -1,0 +1,13 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/registro/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__02vy-5-7nyls1._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_07eny-wiw_h_i.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0hjde5cexwvf4._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__03s38g7fsdgmc._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0b-807oz9el08._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_0wpq8j32_ibz4._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_forbidden_0symwr9mbf-fh.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0l_sp0xky89qu.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_global-error_0q-w892nagajq.js")
+R.c("server/chunks/ssr/_next-internal_server_app_registro_page_actions_0cf5hsue9-msj.js")
+R.m(7859)
+module.exports=R.m(7859).exports

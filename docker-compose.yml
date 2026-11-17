@@ -1,5 +1,4 @@
 # Entorno de desarrollo: `docker compose up --build`
-#   Frontend  http://localhost:3000  (Next.js)
 #   API       http://localhost:8000  (Swagger en /docs)
 #   Postgres  localhost:5432
 
@@ -44,24 +43,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  frontend:
-    build:
-      context: ./Frontend
-      target: dev
-    restart: unless-stopped
-    environment:
-      API_PROXY_TARGET: http://backend:8000
-      # Detecta cambios en volúmenes montados desde Windows/macOS
-      WATCHPACK_POLLING: "true"
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./Frontend:/app
-      - /app/node_modules
-      - /app/.next
-    depends_on:
-      - backend
 
 volumes:
   pgdata:
