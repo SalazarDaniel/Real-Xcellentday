@@ -59,6 +59,24 @@ def authenticate(db: Session, correo: str, password: str) -> tuple[str, Sesion]:
     return token, sesion
 
 
+def registrar(db: Session, nombre_completo: str, correo: str, password: str) -> Usuario:
+    """Alta pública: crea siempre una cuenta WEDDING_PLANNER activa."""
+    correo = correo.lower()
+    if db.scalar(select(Usuario.id).where(func.lower(Usuario.correo) == correo)):
+        raise AuthError("El correo ya está registrado", status_code=409)
+    user = Usuario(
+        nombre_completo=nombre_completo,
+        correo=correo,
+        password_hash=hash_password(password),
+        rol=Rol.WEDDING_PLANNER,
+        activo=True,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
 def logout(db: Session, sesion: Sesion) -> None:
     """Invalida el token en el servidor (RF03)."""
     sesion.activa = False

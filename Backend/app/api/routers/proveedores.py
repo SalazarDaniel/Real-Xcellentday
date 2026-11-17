@@ -4,7 +4,16 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import require_planner
 from app.core.database import get_db
-from app.models import ConceptoPresupuesto, Proveedor, TipoServicio, Usuario, boda_proveedor
+from app.models import (
+    Boda,
+    ConceptoPresupuesto,
+    EstadoBoda,
+    Pareja,
+    Proveedor,
+    TipoServicio,
+    Usuario,
+    boda_proveedor,
+)
 from app.schemas.proveedor import ProveedorCreate, ProveedorOut, ProveedorUpdate
 
 router = APIRouter(prefix="/proveedores", tags=["Proveedores (RF06)"])
@@ -47,7 +56,23 @@ def listar(
         stmt = stmt.where(Proveedor.nombre.ilike(f"%{q.strip()}%"))
     if activo is not None:
         stmt = stmt.where(Proveedor.activo == activo)
-    return db.scalars(stmt.order_by(Proveedor.nombre)).all()
+    proveedores = db.scalars(stmt.order_by(Proveedor.nombre)).all()
+
+    # Parejas de bodas activas asociadas a cada proveedor (una sola consulta)
+    clientes: dict[int, list[str]] = {}
+    filas = db.execute(
+        select(boda_proveedor.c.proveedor_id, Pareja)
+        .join(Boda, Boda.id == boda_proveedor.c.boda_id)
+        .join(Pareja, Pareja.id == Boda.pareja_id)
+        .where(Boda.planner_id == user.id, Boda.estado == EstadoBoda.ACTIVA)
+        .order_by(Boda.fecha)
+    ).all()
+    for proveedor_id, pareja in filas:
+        clientes.setdefault(proveedor_id, []).append(pareja.nombre)
+    return [
+        ProveedorOut.model_validate(p).model_copy(update={"clientes": clientes.get(p.id, [])})
+        for p in proveedores
+    ]
 
 
 @router.post("", response_model=ProveedorOut, status_code=status.HTTP_201_CREATED)

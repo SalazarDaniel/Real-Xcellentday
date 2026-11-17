@@ -37,3 +37,5 @@ class ProveedorOut(ORMModel):
     correo: str | None
     notas: str | None
     activo: bool
+    # Parejas de bodas activas que tienen contratado a este proveedor
+    clientes: list[str] = []

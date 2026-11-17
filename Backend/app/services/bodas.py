@@ -20,6 +20,11 @@ def boda_out(boda: Boda) -> BodaOut:
         out.dias_restantes = (boda.fecha - today()).days
     if boda.estado != EstadoBoda.BORRADOR:
         out.datos_borrador = None
+    if boda.presupuesto is not None:
+        out.presupuesto_total = boda.presupuesto.monto_total
+    if boda.tareas:
+        hechas = sum(t.estado == EstadoTarea.COMPLETADA for t in boda.tareas)
+        out.progreso = round(hechas * 100 / len(boda.tareas))
     return out
 
 

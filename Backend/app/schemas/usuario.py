@@ -28,12 +28,13 @@ class TokenOut(BaseModel):
     usuario: UsuarioOut
 
 
-class UsuarioCreate(BaseModel):
+class RegistroIn(BaseModel):
+    """Alta pública de una wedding planner. El rol no se elige: siempre es WEDDING_PLANNER."""
+
     nombre_completo: str = Field(min_length=1, max_length=100)
     correo: EmailStr
     password: str
     password_confirmacion: str
-    rol: Rol
 
     @field_validator("nombre_completo")
     @classmethod
@@ -56,6 +57,10 @@ class UsuarioCreate(BaseModel):
         if self.password != self.password_confirmacion:
             raise ValueError("La contraseña y su confirmación no coinciden")
         return self
+
+
+class UsuarioCreate(RegistroIn):
+    rol: Rol
 
 
 class UsuarioUpdate(BaseModel):

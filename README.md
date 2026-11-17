@@ -7,7 +7,7 @@ Proyecto de Proyectos VII, Universidad Modelo Campus Mérida (agosto–diciembre
 
 | Capa          | Tecnología                                                        |
 | ------------- | ----------------------------------------------------------------- |
-| Frontend      | React 19, TypeScript, Vite, React Router                          |
+| Frontend      | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4     |
 | Backend       | FastAPI, SQLAlchemy 2, Alembic, Pydantic, JWT, bcrypt             |
 | Base de datos | PostgreSQL 16                                                     |
 | Dependencias  | Poetry (backend), npm (frontend)                                  |
@@ -25,7 +25,7 @@ Proyecto de Proyectos VII, Universidad Modelo Campus Mérida (agosto–diciembre
 │   ├── alembic/        migraciones
 │   ├── scripts/        entrypoint de Docker y datos de demostración
 │   └── tests/          pruebas con pytest
-├── Frontend/           SPA en React (ver Frontend/README.md)
+├── Frontend/           Next.js + Tailwind (diseño de Figma «X-Cellent»)
 └── docker-compose.yml  db + backend + frontend
 ```
 
@@ -39,7 +39,7 @@ docker compose up --build
 
 | Servicio        | URL                         |
 | --------------- | --------------------------- |
-| Aplicación web  | http://localhost:5173       |
+| Aplicación web  | http://localhost:3000       |
 | API             | http://localhost:8000       |
 | Swagger/OpenAPI | http://localhost:8000/docs  |
 
@@ -70,7 +70,8 @@ poetry run uvicorn app.main:app --reload
 ```bash
 cd Frontend
 npm install
-npm run dev                     # usa el backend en http://localhost:8000
+npm run dev                     # http://localhost:3000; /api se envía a http://localhost:8000
+                                # (cámbialo con API_PROXY_TARGET)
 ```
 
 ## Pruebas y calidad

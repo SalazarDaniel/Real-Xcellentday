@@ -1,0 +1,11 @@
+import { Suspense } from "react";
+import { AppShell } from "@/components/app-shell";
+import { Loading } from "@/components/ui";
+
+export default function AppLayout({ children }: LayoutProps<"/">) {
+  return (
+    <Suspense fallback={<div className="p-8"><Loading /></div>}>
+      <AppShell>{children}</AppShell>
+    </Suspense>
+  );
+}

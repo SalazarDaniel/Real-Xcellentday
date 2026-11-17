@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 from app.core.config import today
 from app.models.enums import EstadoBoda
-from app.schemas.common import ORMModel, Phone10, PositiveMoney
+from app.schemas.common import Money, ORMModel, Phone10, PositiveMoney
 
 
 class ParejaIn(BaseModel):
@@ -79,6 +79,9 @@ class BodaOut(ORMModel):
     pareja: ParejaOut | None
     dias_restantes: int | None = None
     datos_borrador: dict | None = None
+    presupuesto_total: Money | None = None
+    # Porcentaje de tareas completadas (0-100); None si la boda aún no tiene tareas.
+    progreso: int | None = None
 
 
 class BodaUpdate(BaseModel):

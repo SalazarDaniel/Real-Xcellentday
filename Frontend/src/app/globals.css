@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Tokens tomados del diseño de Figma (X-Cellent). */
+@theme {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-inter: var(--font-inter-face), ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #fafaf9; /* fondo del contenido */
+  --color-sidebar: #f5f5f4;
+  --color-line: #e7e5e4; /* bordes suaves */
+  --color-field: #f3f3f5; /* buscador del header */
+  --color-placeholder: #717182;
+  --color-sand: #c7b299; /* enlaces y acentos */
+  --color-sand-soft: #e8dcc2;
+  --color-sage: #7c9885; /* pagado / confirmado */
+  --color-honey: #d4a574; /* pendiente */
+  --color-rose: #c98b8b; /* deuda / declinado */
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::placeholder {
+  color: rgb(0 0 0 / 0.4);
+}
+
+/* Foco visible y consistente para teclado */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
